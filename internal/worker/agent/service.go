@@ -15,14 +15,14 @@ type service struct {
 }
 
 type IAgentService interface {
-	AssignAgent(ctx context.Context, customer domain.Customer) error
+	AssignAgent(ctx context.Context, customer domain.QueuePayload) error
 }
 
 func NewService(repo IAgentRepository) IAgentService {
 	return &service{repo}
 }
 
-func (s *service) AssignAgent(ctx context.Context, customer domain.Customer) error {
+func (s *service) AssignAgent(ctx context.Context, customer domain.QueuePayload) error {
 	retry := 0
 	isAssign := false
 	for !isAssign && retry < 5 {
@@ -31,7 +31,7 @@ func (s *service) AssignAgent(ctx context.Context, customer domain.Customer) err
 			log.Printf("failed to get agents: %v", err)
 		} else {
 			for _, agent := range agents {
-				if agent.CurrentCustomerCount < 2 {
+				if agent.CurrentCustomerCount < 2 && agent.IsAvailable {
 					agentID := strconv.Itoa(agent.ID)
 					err := s.repository.AssignAgent(ctx, customer.RoomID, agentID)
 					if err != nil {

@@ -19,7 +19,7 @@ func NewHandler(service IAgentService) *handler {
 }
 
 func (h *handler) HandleAssignAgentTask(ctx context.Context, task *asynq.Task) error {
-	var payload domain.Customer
+	var payload domain.QueuePayload
 	err := json.Unmarshal(task.Payload(), &payload)
 	if err != nil {
 		return fmt.Errorf("json.Unmarshal failed: %v: %w", err, asynq.SkipRetry)

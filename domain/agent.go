@@ -13,3 +13,10 @@ type AllAgent struct {
 		} `json:"agents"`
 	} `json:"data"`
 }
+
+type QueuePayload struct {
+	Name       string `json:"name"`
+	Email      string `json:"email"`
+	IsResolved bool   `json:"is_resolved"`
+	RoomID     string `json:"room_id"`
+}
