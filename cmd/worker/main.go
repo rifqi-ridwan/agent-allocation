@@ -15,7 +15,10 @@ import (
 func main() {
 	redisAddress := fmt.Sprintf("%s:%s", os.Getenv("REDIS_HOST"), os.Getenv("REDIS_PORT"))
 	srv := asynq.NewServer(
-		asynq.RedisClientOpt{Addr: redisAddress},
+		asynq.RedisClientOpt{
+			Addr:     redisAddress,
+			Password: os.Getenv("REDIS_PASSWORD"),
+		},
 		asynq.Config{
 			Concurrency: 1,
 		},

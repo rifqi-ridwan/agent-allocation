@@ -20,7 +20,10 @@ func main() {
 	e.Use(middleware.Recover())
 
 	redisAddress := fmt.Sprintf("%s:%s", os.Getenv("REDIS_HOST"), os.Getenv("REDIS_PORT"))
-	client := asynq.NewClient(asynq.RedisClientOpt{Addr: redisAddress})
+	client := asynq.NewClient(asynq.RedisClientOpt{
+		Addr:     redisAddress,
+		Password: os.Getenv("REDIS_PASSWORD"),
+	})
 	defer client.Close()
 
 	custRepo := customer.NewRepository(client)
