@@ -3,7 +3,7 @@ This project use [DDD](https://en.wikipedia.org/wiki/Domain-driven_design) Conce
 
 This project has 2 service:
 * Webhook: webhook will handle incoming custom agent allocation from qiscus and insert customer queue to redis.
-* Worker: worker will worked as a background job that receive queue from redis and assign agent to customer room.
+* Worker: worker will worked as a task queue that receive queue from redis and assign agent to customer room.
 
 This project has 4 domain layer:
 * Domain Layer (entity)
