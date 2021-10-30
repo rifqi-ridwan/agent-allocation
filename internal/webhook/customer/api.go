@@ -23,7 +23,7 @@ func (a *api) CreateQueue(c echo.Context) error {
 	}
 	err = a.service.CreateQueue(c.Request().Context(), customer)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, echo.Map{"message: ": err.Error()})
+		return c.JSON(http.StatusInternalServerError, echo.Map{"message: ": err.Error()})
 	}
 	return c.JSON(http.StatusOK, nil)
 }
