@@ -7,28 +7,31 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hibiken/asynq"
+	"github.com/bgentry/que-go"
 )
 
 type repository struct {
-	Client *asynq.Client
+	Client *que.Client
 }
 
 type ICustomerRepository interface {
 	InsertQueue(ctx context.Context, payload []byte) error
 }
 
-func NewRepository(c *asynq.Client) ICustomerRepository {
+func NewRepository(c *que.Client) ICustomerRepository {
 	return &repository{c}
 }
 
 func (r *repository) InsertQueue(ctx context.Context, payload []byte) error {
-	task := asynq.NewTask(domain.TypeAllocateAgent, payload)
-	info, err := r.Client.Enqueue(task)
+	job := que.Job{
+		Type: domain.TypeAllocateAgent,
+		Args: payload,
+	}
+	err := r.Client.Enqueue(&job)
 	if err != nil {
 		err := fmt.Sprintf("could not enqueue task: %v", err)
 		return errors.New(err)
 	}
-	log.Printf("enqueued task: id=%s queue%s", info.ID, info.Queue)
+	log.Printf("successfully enqueue job, id: %d", job.ID)
 	return nil
 }
