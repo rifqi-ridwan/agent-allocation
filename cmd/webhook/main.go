@@ -5,6 +5,7 @@ import (
 	"agent-allocation/util/db"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/bgentry/que-go"
@@ -30,8 +31,13 @@ func main() {
 	custService := customer.NewService(custRepo)
 	custHandler := customer.NewAPI(custService)
 
+	e.GET("/healthz", healthzHandler)
 	e.POST("/customagentallocation", custHandler.CreateQueue)
 
 	serverAddr := fmt.Sprintf(":%s", os.Getenv("PORT"))
 	log.Fatal(e.Start(serverAddr))
+}
+
+func healthzHandler(c echo.Context) error {
+	return c.JSON(http.StatusOK, echo.Map{"message: ": "ok"})
 }
