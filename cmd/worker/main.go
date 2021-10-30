@@ -9,7 +9,6 @@ import (
 
 	"agent-allocation/domain"
 	"agent-allocation/internal/worker/agent"
-	_ "agent-allocation/util"
 	"agent-allocation/util/db"
 
 	"github.com/bgentry/que-go"

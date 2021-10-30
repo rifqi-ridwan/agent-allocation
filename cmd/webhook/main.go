@@ -7,8 +7,6 @@ import (
 	"log"
 	"os"
 
-	_ "agent-allocation/util"
-
 	"github.com/bgentry/que-go"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"

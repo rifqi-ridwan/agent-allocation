@@ -9,8 +9,6 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-
-	_ "agent-allocation/util"
 )
 
 type repository struct {
